@@ -1,9 +1,15 @@
-import { Button } from "@/components/ui/button";
+import { loginUser } from "@/api/api";
+import { addUser } from "@/store/userSlice";
 import { useFormik } from "formik";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-
+//email:ashish@sojo.com
+//Password: Apple.23
 const LoginPage = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const validationSchema = Yup.object({
     email: Yup.string().email("Indvalid email").required("Email is required"),
     password: Yup.string()
@@ -11,8 +17,13 @@ const LoginPage = () => {
       .required("Password is required"),
   });
 
-  const handleSubmit = (values) => {
-    console.log(values);
+  const handleSubmit = async (values) => {
+    const response = await loginUser(values);
+    const data = response.data;
+    const { user, token } = data;
+    dispatch(addUser({ id: user.id, token }));
+    navigate("/");
+    console.log(data);
   };
 
   const formik = useFormik({
@@ -37,7 +48,7 @@ const LoginPage = () => {
               className="border p-2 rounded outline-none w-full"
               type="email"
               id="email"
-              {...formik.getFeildProps("email")}
+              {...formik.getFieldProps("email")}
             />
             {formik.touched.email && formik.errors.email && (
               <div className="text-red-500 textm-sm mt-1">
@@ -53,7 +64,7 @@ const LoginPage = () => {
               className="border p-2 rounded outline-none w-full"
               type="password"
               id="password"
-              {...formik.getFeildProps("password")}
+              {...formik.getFieldProps("password")}
             />
             {formik.touched.password && formik.errors.password && (
               <div className="text-red-500 textm-sm mt-1">

@@ -14,3 +14,7 @@ export const fetchBlogs = async () => {
 export const fetchBlogById = async (id) => {
   return api.get(`/api/blog/${id}`);
 };
+
+export const loginUser = async (loginData) => {
+  return api.post("/api/user/login", loginData);
+};
