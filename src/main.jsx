@@ -9,6 +9,9 @@ import HomePage from "./pages/HomePage.jsx";
 import BlogDetailPage from "./pages/BlogDetailPage.jsx";
 import { Provider } from "react-redux";
 import store from "./store/app.js";
+import AddPostPage from "./pages/AddPostPage.jsx";
+import AllPostPage from "./pages/AllPostPage.jsx";
+import PrivateRoute from "./components/PrivateRoute.jsx";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +33,22 @@ const router = createBrowserRouter([
       {
         path: "/details/:id",
         element: <BlogDetailPage />,
+      },
+      {
+        path: "/add-post",
+        element: (
+          <PrivateRoute>
+            <AddPostPage />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/all-post",
+        element: (
+          <PrivateRoute>
+            <AllPostPage />
+          </PrivateRoute>
+        ),
       },
     ],
   },

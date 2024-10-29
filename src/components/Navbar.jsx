@@ -3,12 +3,13 @@ import logo from "../assets/logo.png";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { removeUser } from "@/store/userSlice";
-// if(userId){logged in}else{guest}
 
 const Navbar = () => {
   const userId = useSelector((state) => state.auth?.user?.id ?? "guest");
   const dispatch = useDispatch();
   const [isLoggedIn, setLoggedIn] = useState(userId !== "guest");
+
+  //logic for logout
   const handleLogout = () => {
     dispatch(removeUser());
     setLoggedIn(false);
@@ -21,6 +22,7 @@ const Navbar = () => {
       setLoggedIn(false);
     }
   }, [userId, isLoggedIn]);
+
   return (
     <nav className="bg-white border-gray-200 dark:bg-gray-900">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -33,7 +35,7 @@ const Navbar = () => {
               <>
                 <li>
                   <Link
-                    to="/signup"
+                    to="/"
                     className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
                   >
                     Home
@@ -41,7 +43,7 @@ const Navbar = () => {
                 </li>
                 <li>
                   <Link
-                    to="/signup"
+                    to="/add-post"
                     className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
                   >
                     Add Post
@@ -49,7 +51,7 @@ const Navbar = () => {
                 </li>
                 <li>
                   <Link
-                    to="/signup"
+                    to="/all-post"
                     className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
                   >
                     All Post
@@ -58,7 +60,7 @@ const Navbar = () => {
                 <li>
                   <buttin
                     onClick={handleLogout}
-                    className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                    className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0  hover:cursor-pointer"
                   >
                     LogOut
                   </buttin>
