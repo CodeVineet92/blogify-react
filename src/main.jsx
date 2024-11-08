@@ -12,6 +12,7 @@ import store from "./store/app.js";
 import AddPostPage from "./pages/AddPostPage.jsx";
 import AllPostPage from "./pages/AllPostPage.jsx";
 import PrivateRoute from "./components/PrivateRoute.jsx";
+import EditBlogPage from "./pages/EditBlogPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -47,6 +48,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <AllPostPage />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/edit/:id",
+        element: (
+          <PrivateRoute>
+            <EditBlogPage />
           </PrivateRoute>
         ),
       },

@@ -1,65 +1,31 @@
-import { createPost } from "@/api/api";
-import React, { useState } from "react";
+import { fetchBlogById } from "@/api/api";
+import React, { useEffect, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
-const AddPostPage = () => {
+const EditBlogPage = () => {
+  const { id } = useParams();
+  const [blog, setBlog] = useState({});
   const [value, setValue] = useState("");
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [image, setImage] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
-  const userId = useSelector((state) => state.auth.user.id);
-  const [isLoading, setIsloading] = useState(false);
 
-  const navigate = useNavigate();
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    setImage(file);
-    const imageUrl = URL.createObjectURL(file);
-    setPreviewImage(imageUrl);
-  };
-  const removeImage = () => {
-    setImage(null);
-    setPreviewImage(null);
-  };
-
-  const handleSubmit = async () => {
-    setIsloading(true);
-    if (!title || !value || !category || !image) {
-      alert("please fill all the required fields");
-    }
-
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("category", category);
-    formData.append("content", value);
-    formData.append("image", image);
-    formData.append("user", userId);
-
-    try {
-      const response = await createPost(formData);
-      if (response.status === 201) {
-        setTitle("");
-        setCategory("");
-        setImage(null);
-        setPreviewImage(null);
-        navigate("/");
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsloading(false);
-    }
-  };
+  useEffect(() => {
+    const getBlogDetails = async () => {
+      const data = await fetchBlogById(id);
+      setBlog(data.data);
+      console.log(data.data);
+    };
+    getBlogDetails();
+  }, [id]);
 
   return (
     <div className="p-8 h-full bg-gray-100">
       <h1 className="text-2xl text-center font-semibold mb-8">
-        Add New Blog Post
+        Edit Blog Post
       </h1>
 
       <div className="bg-white p-8 rounded-md drop-shadow-md">
@@ -110,7 +76,7 @@ const AddPostPage = () => {
             type="file"
             accept="image/*"
             className="w-full bg-transparent border p-2 outline-none rounded-md mb-4"
-            onChange={handleImageChange}
+            onChange={"handleImageChange"}
           />
         )}
 
@@ -125,15 +91,14 @@ const AddPostPage = () => {
           style={{ height: "300px", borderRadius: "12px" }}
         />
         <button
-          disabled={isLoading}
-          onClick={handleSubmit}
+          onClick={"handleSubmit"}
           className="bg-black text-white font-bold px-8 py-4 rounded-md mt-16 hover:bg-black/90"
         >
-          Publish Post
+          Update Post
         </button>
       </div>
     </div>
   );
 };
 
-export default AddPostPage;
+export default EditBlogPage;
