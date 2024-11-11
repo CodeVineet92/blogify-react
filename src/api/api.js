@@ -56,3 +56,7 @@ export const createPost = async (blogData) => {
 export const deletePost = async (id) => {
   return api.delete(`/api/blog/${id}`);
 };
+
+export const updatePost = async (id, postData) => {
+  return api.put(`/api/blog/${id}`, postData);
+};
