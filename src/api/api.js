@@ -60,3 +60,8 @@ export const deletePost = async (id) => {
 export const updatePost = async (id, postData) => {
   return api.put(`/api/blog/${id}`, postData);
 };
+
+// Added function
+export const signupUser = async (signupData) => {
+  return api.post("/api/user/signup", signupData);
+};
